@@ -1,25 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import AdminDashboard from "./pages/AdminDashboard";
+import ProtectedRoute from "./components/ProtectedRoute";
+import NotFound from "./pages/NotFound";
+import VehicleList from "./pages/VehicleList";
+import VehicleDetails from "./pages/VehicleDetails";
+// import Navbar from "./components/NavBar";
+import AddVehicle from "./pages/AddVehicle";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<MainLayout />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute role="ADMIN">
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/add-vehicle"
+            element={
+              <ProtectedRoute role="ADMIN">
+                <AddVehicle />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/vehicles"
+            element={
+              <ProtectedRoute>
+                <VehicleList />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/vehicle/:id"
+            element={
+              <ProtectedRoute>
+                <VehicleDetails />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
