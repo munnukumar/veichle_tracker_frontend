@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getVehicleById } from "../api/authApi";
+import { getVehicleById, getUserProfile } from "../api/authApi";
+// import { getUserProfile } from "../api/authApi";
 
 type VehicleType = {
   _id: string;
@@ -49,6 +50,39 @@ export default function VehicleDetails() {
     fetchVehicle();
   }, [id, navigate]);
 
+  const handleBookNow = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (!token) {
+        alert(
+          "Your token is expired or something went wrong please login again"
+        );
+        navigate("/login");
+      }
+
+      const userData = await getUserProfile();
+      console.log("userData ==> ", userData);
+      if (!userData) {
+        alert("Unable to fetch user details.");
+        return;
+      }
+      const user = userData?.data?.data;
+      console.log("user ====> ", user);
+      console.log("kyc ==> ", user.kyc.status);
+
+      if (user.kyc.status !== "VERIFIED") {
+        if (window.confirm("Your KYC is pending. Complete KYC now?")) {
+          navigate("/kyc"); // redirect to KYC page
+        }
+        return;
+      }
+      navigate(`/book/${id}`);
+    } catch (err) {
+      console.log("KYC check error:", err);
+      alert("Something went wrong");
+    }
+  };
+
   if (loading)
     return (
       <p className="min-h-screen flex justify-center items-center text-xl font-bold">
@@ -85,10 +119,12 @@ export default function VehicleDetails() {
             <span className="text-red-600">Not Available</span>
           )}
         </p>
-          <button className="w-full bg-red-600 text-white p-3 rounded hover:bg-green-700">
+        <button
+          onClick={handleBookNow}
+          className="w-full bg-red-600 text-white p-3 rounded hover:bg-green-700"
+        >
           Book Now
         </button>
-
       </div>
     </div>
   );

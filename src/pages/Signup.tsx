@@ -64,13 +64,12 @@ export default function Signup() {
         />
 
         <select
-          onChange= {handleChange}
+          name="role"
+          onChange={handleChange}
           className="w-full p-3 border rounded mb-4"
-
         >
           <option value="USER">USER</option>
           <option value="ADMIN">ADMIN</option>
-          
         </select>
 
         <button className="w-full bg-blue-600 text-white p-3 rounded hover:bg-blue-700">
@@ -78,11 +77,11 @@ export default function Signup() {
         </button>
 
         <p className="text-center text-sm">
-            Don’t have an account?{" "}
-            <a className="text-blue-600 font-medium" href="/login">
-              Login
-            </a>
-          </p>
+          Don’t have an account?{" "}
+          <a className="text-blue-600 font-medium" href="/login">
+            Login
+          </a>
+        </p>
       </form>
     </div>
   );

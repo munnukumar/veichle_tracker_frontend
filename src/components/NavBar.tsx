@@ -23,13 +23,12 @@ export default function Navbar() {
 
       {/* Navigation Links */}
       <div className="flex gap-6 items-center">
-
         {/* Visible to all logged-in users */}
         <Link className="hover:text-blue-600 font-medium" to="/vehicles">
           Vehicles
         </Link>
 
-        <Link className="hover:text-blue-600 font-medium" to="/bookings">
+        <Link className="hover:text-blue-600 font-medium" to="/my-bookings">
           My Bookings
         </Link>
 

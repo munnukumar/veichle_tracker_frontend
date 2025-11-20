@@ -9,6 +9,8 @@ import VehicleDetails from "./pages/VehicleDetails";
 // import Navbar from "./components/NavBar";
 import AddVehicle from "./pages/AddVehicle";
 import MainLayout from "./layouts/MainLayout";
+import BookingPage from "./pages/BookingPage";
+import MyBookings from "./pages/myBookings";
 
 function App() {
   return (
@@ -48,6 +50,24 @@ function App() {
             element={
               <ProtectedRoute>
                 <VehicleDetails />
+              </ProtectedRoute>
+            }
+          />
+
+           <Route
+            path="/book/:vehicleId"
+            element={
+              <ProtectedRoute>
+                <BookingPage />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/my-bookings"
+            element={
+              <ProtectedRoute>
+                <MyBookings />
               </ProtectedRoute>
             }
           />
