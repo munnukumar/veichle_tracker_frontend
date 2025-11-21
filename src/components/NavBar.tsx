@@ -19,37 +19,43 @@ export default function Navbar() {
   return (
     <nav className="bg-white shadow-md px-6 py-4 flex justify-between items-center">
       {/* Logo */}
-      <h1 className="text-2xl font-bold text-blue-600">Vehicle Rental</h1>
+      <Link to={role === "ADMIN" ? "/admin/dashboard" : "/"}>
+        <h1 className="text-2xl font-bold text-blue-600 cursor-pointer hover:underline">
+          Vehicle Rental
+        </h1>
+      </Link>
 
-      {/* Navigation Links */}
-      <div className="flex gap-6 items-center">
-        {/* Visible to all logged-in users */}
-        <Link className="hover:text-blue-600 font-medium" to="/vehicles">
-          Vehicles
-        </Link>
-
-        <Link className="hover:text-blue-600 font-medium" to="/my-bookings">
-          My Bookings
-        </Link>
-
-        {/* Admin Only → Add Vehicle */}
-        {role === "ADMIN" && (
-          <Link
-            className="hover:text-blue-600 font-medium"
-            to="/admin/add-vehicle"
-          >
-            Add Vehicle
+      {/* -------- USER NAV LINKS -------- */}
+      {role === "USER" && (
+        <div className="flex gap-6 items-center">
+          <Link className="hover:text-blue-600 font-medium" to="/vehicles">
+            Vehicles
           </Link>
-        )}
 
-        {/* Logout */}
-        <button
-          onClick={logout}
-          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
-        >
-          Logout
-        </button>
-      </div>
+          <Link className="hover:text-blue-600 font-medium" to="/my-bookings">
+            My Bookings
+          </Link>
+
+          <button
+            onClick={logout}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </div>
+      )}
+
+      {/* -------- ADMIN NAV LINKS (ONLY LOGOUT) -------- */}
+      {/* {role === "ADMIN" && (
+        <div className="flex gap-6 items-center">
+          <button
+            onClick={logout}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </div>
+      )} */}
     </nav>
   );
 }

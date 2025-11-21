@@ -11,6 +11,7 @@ import AddVehicle from "./pages/AddVehicle";
 import MainLayout from "./layouts/MainLayout";
 import BookingPage from "./pages/BookingPage";
 import MyBookings from "./pages/myBookings";
+import AdminUsers from "./pages/AdminUsers";
 
 function App() {
   return (
@@ -33,6 +34,14 @@ function App() {
             element={
               <ProtectedRoute role="ADMIN">
                 <AddVehicle />
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute role="ADMIN">
+                <AdminUsers />
               </ProtectedRoute>
             }
           />

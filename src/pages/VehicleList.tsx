@@ -2,24 +2,37 @@ import { useEffect, useState } from "react";
 import { getAllVehicles } from "../api/authApi";
 import { Link } from "react-router-dom";
 
+interface VehicleItem {
+  _id: string;
+  vehicleId?: {
+    _id: string;
+    image?: string;
+    title: string;
+    type: string;
+    price: number;
+  } | null;
+  isAvailable: boolean;
+}
+
 export default function VehicleList() {
-  const [vehicles, setVehicles] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [vehicles, setVehicles] = useState<VehicleItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const fetchVehicles = async () => {
     try {
       const res = await getAllVehicles();
-      const list = res?.data?.data;
+      console.log("ressssss : ", res);
+      const list = res?.data?.data?.vehicles;
+      console.log("vehicles L ", list);
 
-      // Filter out any vehicles where vehicleId is null
       if (Array.isArray(list)) {
-        setVehicles(list.filter((v) => v.vehicleId));
+        setVehicles(list);
       } else {
-        setVehicles([]); // fallback to empty array
+        setVehicles([]);
       }
     } catch (err) {
       console.log("Error loading vehicles", err);
-      setVehicles([]); // fallback to empty array
+      setVehicles([]);
     } finally {
       setLoading(false);
     }
@@ -49,7 +62,6 @@ export default function VehicleList() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {vehicles.map((v) => {
-          // Skip if vehicleId is missing
           if (!v.vehicleId) return null;
 
           return (

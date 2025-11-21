@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserBookings } from "../api/authApi";
+import { getUserBookings, cancelBookings } from "../api/authApi";
 import { openRazorpayCheckout } from "../utils/LoadRazorpay";
 
 type BookingType = {
@@ -14,7 +14,7 @@ type BookingType = {
     image?: string;
     price: number;
   };
-  status: "PENDING" | "CONFIRMED" | "cancelled";
+  status: "PENDING" | "CONFIRMED" | "CANCEllED" | "COMPLETED";
 };
 
 export default function MyBookings() {
@@ -39,6 +39,14 @@ export default function MyBookings() {
   const handlePayment = async (booking: BookingType) => {
     await openRazorpayCheckout(booking);
   };
+
+  const handleCancelBooking = async (id: any) => {
+    await cancelBookings(id);
+  };
+
+  // const handleRemoveCart = async (id: any) => {
+  //   await cancelBookings(id);
+  // };
 
   if (loading)
     return (
@@ -105,6 +113,23 @@ export default function MyBookings() {
                   Pay Now
                 </button>
               )}
+              {!["COMPLETED", "CANCELLED"].includes(b.status) && (
+                <button
+                  className="mt-3 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+                  onClick={() => handleCancelBooking(b._id)}
+                >
+                  Cancel Booking
+                </button>
+              )}
+
+              {/* {["COMPLETED", "CANCELLED"].includes(b.status) && (
+                <button
+                  className="mt-3 bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+                  onClick={() => handleRemoveCart(b._id)}
+                >
+                  Remove
+                </button>
+              )} */}
             </div>
           </div>
         ))}

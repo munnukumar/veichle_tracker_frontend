@@ -18,6 +18,22 @@ export const getUserProfile = async () => {
   });
 };
 
+export const getAllUsers = async () => {
+  const token = localStorage.getItem("accessToken");
+  return axios.get(`${API}/users`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const updateUserStatus = async (id: string, data: any) => {
+  console.log("id : ", id);
+  console.log("data : ", data);
+  const token = localStorage.getItem("accessToken");
+  return axios.patch(`${API}/users/kyc/${id}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
 //vehicle route
 export const getAllVehicles = async () => {
   const token = localStorage.getItem("accessToken");
@@ -43,6 +59,16 @@ export const addVehicleApi = async (formData: any) => {
   });
 };
 
+export const fetchAllVehicleApi = async () => {
+  const token = localStorage.getItem("accessToken");
+
+  return axios.get(`${API}/vehicles`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
 //Booking
 export const createBooking = async (data: {
   vehicleId: string;
@@ -62,6 +88,24 @@ export const getUserBookings = async () => {
   return axios.get(`${API}/bookings/my-booking`, {
     headers: { Authorization: `Bearer ${token}` },
   });
+};
+
+export const getActiveBookings = async () => {
+  const token = localStorage.getItem("accessToken");
+  return axios.get(`${API}/bookings/active`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
+export const cancelBookings = async (id: any) => {
+  const token = localStorage.getItem("accessToken");
+  return axios.patch(
+    `${API}/bookings/cancel/${id}`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
 };
 
 //payment
